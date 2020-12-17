@@ -1,0 +1,24 @@
+/*GameGhess*/
+/************************/
+.fieldChess {
+	position: relative;
+}
+
+.containerMenuOfPawnTransformation {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: 0px solid #ddd;
+	border-radius: 10px;
+	background-color: #DBD3E3; 
+}
+
+.menuOfPawnTransformation {
+	display: grid;
+	grid-template-columns: auto; 
+}
+
+.menuOfPawnTransformation img {
+	border-top: 2px solid #727272;			
+}
