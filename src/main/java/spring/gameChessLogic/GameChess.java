@@ -6,9 +6,7 @@ import spring.gameChessLogic.jsonResponses.Cell;
 import spring.gameChessLogic.jsonResponses.DataPackageToClient;
 import spring.gameChessLogic.jsonResponses.Stroke;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class GameChess {
     private static final int width = 8;
@@ -18,6 +16,8 @@ public class GameChess {
     private Queue<Player> playersQueue;
     private Player currentPlayerStroke;
     private ChessMan selectedChessman;
+    private boolean isFinish = false;
+    private Player winner;
 
     private ArrayList<Stroke> lastStrokes = new ArrayList<>(2);
 
@@ -93,6 +93,14 @@ public class GameChess {
         return players;
     }
 
+    public boolean isFinish() {
+        return isFinish;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
     public DataPackageToClient getDataPackageToClient() {
         DataPackageToClient dataPackageToClient = new DataPackageToClient(players, lastStrokes);
         return dataPackageToClient;
@@ -109,6 +117,7 @@ public class GameChess {
         }
         selectedChessman = field[x][y];
         ArrayList<Cell> cells = Checker.getAvailableTurnCells(selectedChessman, field, players, currentPlayerStroke, true);
+        //printFieldInConsole("check");
         return cells;
     }
 
@@ -134,6 +143,7 @@ public class GameChess {
                 lastStrokes.add(king.getStrokeForRookAfterCastling());
             }
         }
+        //printFieldInConsole("move");
         return lastStrokes;
     }
 
@@ -164,6 +174,9 @@ public class GameChess {
         int pId = king.getPlayerId();
         ArrayList<ChessMan> chessmen = players.get(pId).getChessmans();
         for (ChessMan chessMan : chessmen) {
+            if (!chessMan.isAlive()) {
+                continue;
+            }
             cells.addAll(Checker.getAvailableTurnCells(chessMan, field, players, currentPlayerStroke, true));
         }
         if (cells.size() == 0) {
@@ -178,5 +191,42 @@ public class GameChess {
             }
         }
         return null;
+    }
+
+    public void finishByPlayerSurrender(String nickname) {
+        isFinish = true;
+        Player playerSurrender = findPlayerByNickname(nickname);
+        for (Player player : players) {
+            if (playerSurrender != player) {
+                winner = player;
+                break;
+            }
+        }
+    }
+
+    private void printFieldInConsole(String operation) {
+        Map<String, String> map = new HashMap<>();
+        map.put("pawn", "P");
+        map.put("rook", "R");
+        map.put("horse", "H");
+        map.put("elephant", "E");
+        map.put("queen", "Q");
+        map.put("king", "K");
+        System.out.println("________________________________________");
+        System.out.println("Operation - " + operation);
+        String tab = "          ";
+        //System.out.println("Player " + "0" + tab + "        " + "Player " + "1");
+        for (int i = 0; i < field.length; i++) {
+            System.out.print("|");
+            for (int j = 0; j < field[i].length; j++) {
+                if (field[i][j] == null) {
+                    System.out.print(" *|");
+                } else {
+                    System.out.print(map.get(field[i][j].getType()) + field[i][j].getPlayerId() + "|");
+                }
+            }
+            System.out.println();
+            System.out.println("|-----------------------|");
+        }
     }
 }

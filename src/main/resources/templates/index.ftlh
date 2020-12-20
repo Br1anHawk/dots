@@ -17,7 +17,7 @@
 			<a href="/${hrefGameDots}">
 				<img class="gameIcon" src="../img/gameIcons/dotsGameIcon.png"/>
 			</a>
-			<a href="/${hrefLobbyGameChess}">
+			<a href="/${hrefLobbies}">
 				<img class="gameIcon" src="../img/gameIcons/chessGameIcon.png"/>
 			</a>
 			<a href="/${hrefGamePackman}">

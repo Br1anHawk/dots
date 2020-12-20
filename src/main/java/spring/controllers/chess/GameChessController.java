@@ -9,6 +9,7 @@ import spring.gameChessLogic.GameChess;
 import spring.gameChessLogic.Player;
 import spring.gameChessLogic.jsonResponses.Cell;
 import spring.gameChessLogic.jsonResponses.DataPackageToClient;
+import spring.gameChessLogic.jsonResponses.Lobby;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +25,11 @@ public class GameChessController {
 
     }
 
-    public static void addGame(ArrayList<Player> players) {
-        GameChess gameChess = new GameChess(players);
-        chessGamesMap.put(players.get(0).getNickName(), gameChess);
-        chessGamesMap.put(players.get(1).getNickName(), gameChess);
+    public static void addGame(Lobby lobby) {
+        GameChess gameChess = new GameChess(lobby.getPlayers());
+        lobby.setGameChess(gameChess);
+        chessGamesMap.put(lobby.getPlayers().get(0).getNickName(), gameChess);
+        chessGamesMap.put(lobby.getPlayers().get(1).getNickName(), gameChess);
     }
 
     public static GameChess getGame(String nickname) {
@@ -117,7 +119,13 @@ public class GameChessController {
     public String surrender(
             @AuthenticationPrincipal Account account
     ) {
-
+        String nickname = account.getNickname();
+        GameChess gameChess = chessGamesMap.get(nickname);
+        gameChess.finishByPlayerSurrender(nickname);
+        LobbyGameChessController.closeLobby(gameChess);
+        for (Player player : gameChess.getPlayers()) {
+            chessGamesMap.remove(player.getNickName());
+        }
         return "redirect:" + MappingURLs.HOME;
     }
 

@@ -8,6 +8,8 @@ public class MappingURLs {
     public static final String REGISTRATION = "registration"; //template
 
     public static final String LOBBY_FOR_GAME_CHESS = "lobby"; //template
+    public static final String LIST_OF_LOBBIES_FOR_GAME_CHESS = "lobbies";
+    public static final String JOIN_IN_LOBBY_FOR_GAME_CHESS = "joinLobby";
     public static final String PLAYER_IS_READY_IN_LOBBY_FOR_GAME_CHESS = LOBBY_FOR_GAME_CHESS + "/playerIsReady";
     public static final String PLAYER_IS_EXIT_FROM_LOBBY_FOR_GAME_CHESS = LOBBY_FOR_GAME_CHESS + "/playerIsExit";
     public static final String GET_DATA_PACKAGE_TO_CLIENT_FROM_GAME_CHESS_LOBBY = LOBBY_FOR_GAME_CHESS + "/update";

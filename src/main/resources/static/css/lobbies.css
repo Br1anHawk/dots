@@ -1,0 +1,36 @@
+.pageContainer {
+
+}
+
+.list {
+
+}
+
+.listHead {
+
+}
+
+.listBody {
+	display: grid;
+	grid-template-columns: auto;
+}
+
+.lobbyInfoLineContainer {
+
+}
+
+.lobbyId {
+
+}
+
+.players {
+
+}
+
+.player {
+
+}
+
+.listFooter {
+	
+}

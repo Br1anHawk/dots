@@ -1,21 +1,29 @@
 package spring.gameChessLogic.jsonResponses;
 
+import spring.gameChessLogic.GameChess;
 import spring.gameChessLogic.Player;
 
 import java.util.ArrayList;
 
 public class Lobby {
+    private int id;
     private int MAX_PLAYERS_IN_LOBBY;
     private ArrayList<Player> players;
     private boolean gameIsStart = false;
     private String gameMappingURL;
     private boolean isFull = false;
+    private GameChess gameChess;
     private boolean gameIsFinish = false;
     private Player winner;
 
-    public Lobby(int maxPlayersInLobby) {
+    public Lobby(int id, int maxPlayersInLobby) {
+        this.id = id;
         players = new ArrayList<>(maxPlayersInLobby);
         MAX_PLAYERS_IN_LOBBY = maxPlayersInLobby;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -34,6 +42,20 @@ public class Lobby {
         return isFull;
     }
 
+    public GameChess getGameChess() {
+        return gameChess;
+    }
+
+    public void setGameChess(GameChess gameChess) {
+        this.gameChess = gameChess;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+        gameIsFinish = true;
+    }
+
+
     public boolean isGameIsFinish() {
         return gameIsFinish;
     }
@@ -42,11 +64,15 @@ public class Lobby {
         return winner;
     }
 
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
+        if (isFull) {
+            return false;
+        }
         players.add(player);
         if (players.size() == MAX_PLAYERS_IN_LOBBY) {
             isFull = true;
         }
+        return true;
     }
 
     public void removePlayer(int playerId) {

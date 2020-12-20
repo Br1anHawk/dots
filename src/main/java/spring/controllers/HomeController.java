@@ -22,7 +22,7 @@ public class HomeController {
         model.put("logout", MappingURLs.LOGOUT);
         model.put("nickname", account.getNickname());
         model.put("hrefGameDots", MappingURLs.GAME_DOTS);
-        model.put("hrefLobbyGameChess", MappingURLs.LOBBY_FOR_GAME_CHESS);
+        model.put("hrefLobbies", MappingURLs.LIST_OF_LOBBIES_FOR_GAME_CHESS);
         model.put("hrefGamePackman", MappingURLs.GAME_PACKMAN);
         return MappingURLs.INDEX;
     }
