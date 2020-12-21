@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import spring.controllers.mappingNames.MappingURLs;
 import spring.domain.Account;
 import spring.gameChessLogic.GameChess;
-import spring.gameChessLogic.Player;
 import spring.gameChessLogic.jsonResponses.Cell;
 import spring.gameChessLogic.jsonResponses.DataPackageToClient;
 import spring.gameChessLogic.jsonResponses.Lobby;
@@ -122,11 +121,11 @@ public class GameChessController {
         String nickname = account.getNickname();
         GameChess gameChess = chessGamesMap.get(nickname);
         gameChess.finishByPlayerSurrender(nickname);
-        LobbyGameChessController.closeLobby(gameChess);
-        for (Player player : gameChess.getPlayers()) {
-            chessGamesMap.remove(player.getNickName());
-        }
-        return "redirect:" + MappingURLs.HOME;
+//        LobbyGameChessController.closeLobby(gameChess);
+//        for (Player player : gameChess.getPlayers()) {
+//            chessGamesMap.remove(player.getNickName());
+//        }
+        return MappingURLs.HOME;
     }
 
     @RequestMapping(
@@ -137,7 +136,13 @@ public class GameChessController {
     public DataPackageToClient update(
             @AuthenticationPrincipal Account account
     ) {
-        return chessGamesMap.get(account.getNickname()).getDataPackageToClient();
+        DataPackageToClient dataPackageToClient = chessGamesMap.get(account.getNickname()).getDataPackageToClient();
+        GameChess gameChess = chessGamesMap.get(account.getNickname());
+//        LobbyGameChessController.closeLobby(gameChess);
+//        for (Player player : gameChess.getPlayers()) {
+//            chessGamesMap.remove(player.getNickName());
+//        }
+        return dataPackageToClient;
     }
 
 }

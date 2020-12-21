@@ -1,36 +1,54 @@
 .pageContainer {
-
+	margin: auto;
+	width: 60%;
 }
 
 .list {
+	margin: auto;
 
+	border: 4px solid #999999;
+	border-radius: 10px;
 }
 
 .listHead {
-
+	margin: auto;
 }
 
 .listBody {
 	display: grid;
-	grid-template-columns: auto;
+	grid-template-columns: auto;	
 }
 
 .lobbyInfoLineContainer {
+	display: grid;
+	grid-template-columns: auto auto auto;
 
+	border: 2px solid #cccccc;
+	border-radius: 5px;
 }
 
 .lobbyId {
-
+	margin: auto;
 }
 
 .players {
-
+	margin: auto;
+	display: grid;
+	grid-template-columns: auto;
 }
 
 .player {
-
+	margin: auto;
 }
 
 .listFooter {
-	
+	margin: auto;
+}
+
+.buttonCreateLobby {
+	font-size: 20px;
+	color: #fff;
+	border: 0px;
+	border-radius: 50%;
+	background-color: #00b300;
 }

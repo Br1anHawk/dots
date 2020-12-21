@@ -209,8 +209,7 @@ function surrender() {
 	    type: "POST",
 	    url: "../chess/surrender",	    
 		success: function(data) {	
-
-
+			window.location.replace(data);
 		},
 		error: function(errMsg) {
 

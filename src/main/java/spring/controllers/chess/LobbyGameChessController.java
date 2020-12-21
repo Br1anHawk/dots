@@ -74,7 +74,7 @@ public class LobbyGameChessController {
     ) {
         Lobby lobby = lobbies.get(lobbyId);
         if (lobby != null) {
-            boolean isAdded = lobby.addPlayer(new Player(lobby.getPlayers().size() + 1, account.getNickname()));
+            boolean isAdded = lobby.addPlayer(new Player(lobby.getPlayers().size(), account.getNickname()));
             if (!isAdded) {
                 return "redirect:" + MappingURLs.LIST_OF_LOBBIES_FOR_GAME_CHESS;
             }
@@ -160,6 +160,9 @@ public class LobbyGameChessController {
             }
         }
         lobby.removePlayer(playerId);
+        if (lobby.isEmpty()) {
+            lobbies.remove(String.valueOf(lobby.getId()));
+        }
         response.put("url", MappingURLs.HOME);
         return response;
     }

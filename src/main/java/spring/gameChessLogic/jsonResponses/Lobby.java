@@ -15,6 +15,7 @@ public class Lobby {
     private GameChess gameChess;
     private boolean gameIsFinish = false;
     private Player winner;
+    private boolean isEmpty = true;
 
     public Lobby(int id, int maxPlayersInLobby) {
         this.id = id;
@@ -64,11 +65,16 @@ public class Lobby {
         return winner;
     }
 
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
     public boolean addPlayer(Player player) {
         if (isFull) {
             return false;
         }
         players.add(player);
+        isEmpty = false;
         if (players.size() == MAX_PLAYERS_IN_LOBBY) {
             isFull = true;
         }
@@ -81,6 +87,9 @@ public class Lobby {
             players.get(i).setId(i);
         }
         isFull = false;
+        if (players.size() == 0) {
+            isEmpty = true;
+        }
     }
 
     public void startGame(String url) {

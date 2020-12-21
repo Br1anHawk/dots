@@ -41,11 +41,15 @@
 							</form>							
 						</div>
 					</div>
+				<#else>
+					<div>
+						Empty
+					</div>
 				</#list>
 			</div>
 			<div class="listFooter">
 				<form action="/lobbies" method="post">
-					<input type="submit" value="+">
+					<input class="buttonCreateLobby" type="submit" value="+">
 					<input type="hidden" name="_csrf" value="${_csrf.token}" />
 				</form>
 			</div>
