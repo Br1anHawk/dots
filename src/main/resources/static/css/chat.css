@@ -1,0 +1,32 @@
+.chatContainer {
+	margin: auto;
+	display: grid;
+	grid-template-columns: auto;
+
+	border: 5px solid #999999;
+	border-radius: 10px;
+}
+
+.chatHeader {
+	//margin: auto;
+	text-align: center;
+	border-bottom: 5px solid #999999;
+}
+
+.chatBody {
+
+}
+
+.chatFooter {
+	//margin: auto;
+	text-align: center;
+	border-top: 5px solid #999999;
+}
+
+.textMessage {
+
+}
+
+.buttonSend {
+
+}

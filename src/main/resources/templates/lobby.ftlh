@@ -1,4 +1,5 @@
 <#import "parts/header.ftlh" as header>
+<#import "parts/chat.ftlh" as chat>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +50,6 @@
     		<input class="buttonExit" type="button" value="Exit" onclick="exit()" />
     	</div>
     </div>
-	    
+	<@chat.chat />  
 </body>
 </html>
