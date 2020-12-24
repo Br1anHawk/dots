@@ -77,10 +77,12 @@ function drawChessmans() {
 			if (data.lastStrokes.length > 0) {	
 				let fromCell = data.lastStrokes[0].fromCell;
 				let toCell = data.lastStrokes[0].toCell;
-				$("#rectMarker" + fromCell.x + fromCell.y).attr('fill', colorBackgroundCellForLastStroke);
-				$("#rectMarker" + fromCell.x + fromCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
-				$("#rectMarker" + toCell.x + toCell.y).attr('fill', colorBackgroundCellForLastStroke);
-				$("#rectMarker" + toCell.x + toCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+				if (fromCell != null && toCell != null) {
+					$("#rectMarker" + fromCell.x + fromCell.y).attr('fill', colorBackgroundCellForLastStroke);
+					$("#rectMarker" + fromCell.x + fromCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+					$("#rectMarker" + toCell.x + toCell.y).attr('fill', colorBackgroundCellForLastStroke);
+					$("#rectMarker" + toCell.x + toCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+				}
 			}
 		},
 		error: function(errMsg) {
@@ -248,33 +250,35 @@ let st = setInterval(function run() {
 			if (data) {
 				//window.location.replace("../chess");
 				let fromCell = data.lastStrokes[0].fromCell;
-				let toCell = data.lastStrokes[0].toCell;					
-				for (let i = 0; i < data.lastStrokes.length; i++) {	
-					if (data.lastStrokes[i].moved) {		
-						let imgSrc = $("#image" + data.lastStrokes[i].fromCell.x + data.lastStrokes[i].fromCell.y).attr('xlink:href');										
-						if (imgSrc != "") {
-							$("#image" + data.lastStrokes[i].fromCell.x + data.lastStrokes[i].fromCell.y).attr('xlink:href', '');
-							$("#image" + data.lastStrokes[i].toCell.x + data.lastStrokes[i].toCell.y).attr('xlink:href', imgSrc);
-							clearCirclesAndRectAvailableTurnMarker(N, M);
-						}
-					}	
-				}
-				$("#rectMarker" + fromCell.x + fromCell.y).attr('fill', colorBackgroundCellForLastStroke);
-				$("#rectMarker" + fromCell.x + fromCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
-				$("#rectMarker" + toCell.x + toCell.y).attr('fill', colorBackgroundCellForLastStroke);
-				$("#rectMarker" + toCell.x + toCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
-				for (let playerNumber = 0; playerNumber < data.players.length; playerNumber++) {
-					let king = data.players[playerNumber].king;
-					if (king.check) {
-						$("#rectMarker" + king.x + king.y).attr('fill', colorBackgroundCellForCheckKing);
-						$("#rectMarker" + king.x + king.y).attr('opacity', opacityBackgroundCellForCheckKing);
-						if (king.checkmate) {
-							if (playerNumber == 0) {
-								alert("Black Win!");
-							} else {
-								alert("White Win!");
+				let toCell = data.lastStrokes[0].toCell;
+				if (fromCell != null && toCell != null) {					
+					for (let i = 0; i < data.lastStrokes.length; i++) {	
+						if (data.lastStrokes[i].moved) {		
+							let imgSrc = $("#image" + data.lastStrokes[i].fromCell.x + data.lastStrokes[i].fromCell.y).attr('xlink:href');										
+							if (imgSrc != "") {
+								$("#image" + data.lastStrokes[i].fromCell.x + data.lastStrokes[i].fromCell.y).attr('xlink:href', '');
+								$("#image" + data.lastStrokes[i].toCell.x + data.lastStrokes[i].toCell.y).attr('xlink:href', imgSrc);
+								clearCirclesAndRectAvailableTurnMarker(N, M);
 							}
-							clearInterval(st);
+						}	
+					}
+					$("#rectMarker" + fromCell.x + fromCell.y).attr('fill', colorBackgroundCellForLastStroke);
+					$("#rectMarker" + fromCell.x + fromCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+					$("#rectMarker" + toCell.x + toCell.y).attr('fill', colorBackgroundCellForLastStroke);
+					$("#rectMarker" + toCell.x + toCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+					for (let playerNumber = 0; playerNumber < data.players.length; playerNumber++) {
+						let king = data.players[playerNumber].king;
+						if (king.check) {
+							$("#rectMarker" + king.x + king.y).attr('fill', colorBackgroundCellForCheckKing);
+							$("#rectMarker" + king.x + king.y).attr('opacity', opacityBackgroundCellForCheckKing);
+							if (king.checkmate) {
+								if (playerNumber == 0) {
+									alert("Black Win!");
+								} else {
+									alert("White Win!");
+								}
+								clearInterval(st);
+							}
 						}
 					}
 				}

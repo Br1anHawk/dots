@@ -11,6 +11,7 @@ import java.util.*;
 public class GameChess {
     private static final int width = 8;
     private static final int height = 8;
+    private int lobbyId;
     private ChessMan[][] field;
     private ArrayList<Player> players;
     private Queue<Player> playersQueue;
@@ -83,6 +84,14 @@ public class GameChess {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(int lobbyId) {
+        this.lobbyId = lobbyId;
     }
 
     public ArrayList<Stroke> getLastStrokes() {

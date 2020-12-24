@@ -96,4 +96,13 @@ public class Lobby {
         gameIsStart = true;
         gameMappingURL = url;
     }
+
+    public int getPlayerIdByNickname(String nickname) {
+        for (Player player : players) {
+            if (player.getNickName().equals(nickname)) {
+                return player.getId();
+            }
+        }
+        return -1;
+    }
 }

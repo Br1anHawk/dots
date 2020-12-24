@@ -1,15 +1,33 @@
 package spring.gameChessLogic.jsonResponses;
 
 public class Message {
-    private String from;
+    private int playerId;
+    private String lobbyId;
+    private String fromPlayerNickname;
     private String message;
 
-    public String getFrom() {
-        return from;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(String lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public String getFromPlayerNickname() {
+        return fromPlayerNickname;
+    }
+
+    public void setFromPlayerNickname(String fromPlayerNickname) {
+        this.fromPlayerNickname = fromPlayerNickname;
     }
 
     public String getMessage() {
@@ -23,7 +41,9 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "from='" + from + '\'' +
+                "playerId=" + playerId +
+                ", lobbyId='" + lobbyId + '\'' +
+                ", fromPlayerNickname='" + fromPlayerNickname + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

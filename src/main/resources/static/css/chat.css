@@ -14,7 +14,17 @@
 }
 
 .chatBody {
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 300px;
+}
 
+.messageLine {	
+	padding: 2px;
+}
+
+.nickname {
+	font-weight: bold;
 }
 
 .chatFooter {

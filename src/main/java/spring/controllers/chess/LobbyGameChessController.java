@@ -40,6 +40,10 @@ public class LobbyGameChessController {
         lobbies.remove(lobbyId);
     }
 
+    public static Lobby getLobbyById(String lobbyId) {
+        return lobbies.get(lobbyId);
+    }
+
     @GetMapping("/" + MappingURLs.LIST_OF_LOBBIES_FOR_GAME_CHESS)
     public String lobbies(
             @AuthenticationPrincipal Account account,
@@ -96,7 +100,7 @@ public class LobbyGameChessController {
         }
         model.put("logout", MappingURLs.LOGOUT);
         model.put("nickname", account.getNickname());
-        //model.put("players", lobby.getPlayers());
+        model.put("lobbyId", lobby.getId());
         for (Player player : lobby.getPlayers()) {
             if (player.getNickName().equals(account.getNickname())) {
                 return MappingURLs.LOBBY_FOR_GAME_CHESS;

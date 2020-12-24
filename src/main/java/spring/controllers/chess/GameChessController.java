@@ -26,6 +26,7 @@ public class GameChessController {
 
     public static void addGame(Lobby lobby) {
         GameChess gameChess = new GameChess(lobby.getPlayers());
+        gameChess.setLobbyId(lobby.getId());
         lobby.setGameChess(gameChess);
         chessGamesMap.put(lobby.getPlayers().get(0).getNickName(), gameChess);
         chessGamesMap.put(lobby.getPlayers().get(1).getNickName(), gameChess);
@@ -51,8 +52,10 @@ public class GameChessController {
         }
         model.put("logout", MappingURLs.LOGOUT);
         model.put("nickname", account.getNickname());
+        model.put("lobbyId", chessGamesMap.get(account.getNickname()).getLobbyId());
         model.put("n", gameChess.getHeight());
         model.put("m", gameChess.getWidth());
+        model.put("alphabet", getAlphabet());
         int rotationAngle = 0;
         int playerId = gameChess.findPlayerByNickname(account.getNickname()).getId();
         if (playerId == 1) {
@@ -143,6 +146,14 @@ public class GameChessController {
 //            chessGamesMap.remove(player.getNickName());
 //        }
         return dataPackageToClient;
+    }
+
+    private ArrayList<Character> getAlphabet() {
+        ArrayList<Character> alphabet = new ArrayList<>(26);
+        for (char letter = 'a'; letter <= 'z'; letter++) {
+            alphabet.add(letter);
+        }
+        return alphabet;
     }
 
 }

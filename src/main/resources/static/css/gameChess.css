@@ -1,5 +1,10 @@
 /*GameGhess*/
 /************************/
+.page {
+	display: grid;
+	grid-template-columns: auto auto; 
+}
+
 .fieldChess {
 	position: relative;
 }
