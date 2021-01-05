@@ -4,6 +4,9 @@ public class Stroke {
     private boolean isMoved;
     private Cell fromCell;
     private Cell toCell;
+    private boolean isPawnTransformation = false;
+    private String pawnTransformationToType;
+    private int playerIdForPawnTransformation;
 
     public Stroke() {
         isMoved = false;
@@ -30,5 +33,30 @@ public class Stroke {
 
     public void setMoved(boolean moved) {
         isMoved = moved;
+    }
+
+    public boolean isPawnTransformation() {
+        return isPawnTransformation;
+    }
+
+    public void setPawnTransformationToType(String pawnTransformationToType) {
+        this.isPawnTransformation = true;
+        this.pawnTransformationToType = pawnTransformationToType;
+    }
+
+    public void setPawnTransformation(boolean pawnTransformation) {
+        isPawnTransformation = pawnTransformation;
+    }
+
+    public String getPawnTransformationToType() {
+        return pawnTransformationToType;
+    }
+
+    public int getPlayerIdForPawnTransformation() {
+        return playerIdForPawnTransformation;
+    }
+
+    public void setPlayerIdForPawnTransformation(int playerIdForPawnTransformation) {
+        this.playerIdForPawnTransformation = playerIdForPawnTransformation;
     }
 }

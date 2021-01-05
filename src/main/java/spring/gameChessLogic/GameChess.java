@@ -3,6 +3,7 @@ package spring.gameChessLogic;
 import spring.gameChessLogic.chessMans.*;
 import spring.gameChessLogic.chessMans.checkAvailableTurn.Checker;
 import spring.gameChessLogic.jsonResponses.Cell;
+import spring.gameChessLogic.jsonResponses.DataAboutPawnTransformation;
 import spring.gameChessLogic.jsonResponses.DataPackageToClient;
 import spring.gameChessLogic.jsonResponses.Stroke;
 
@@ -19,6 +20,7 @@ public class GameChess {
     private ChessMan selectedChessman;
     private boolean isFinish = false;
     private Player winner;
+    boolean isPawnTransformation = false;
 
     private ArrayList<Stroke> lastStrokes = new ArrayList<>(2);
 
@@ -102,12 +104,20 @@ public class GameChess {
         return players;
     }
 
+    public Player getCurrentPlayerStroke() {
+        return currentPlayerStroke;
+    }
+
     public boolean isFinish() {
         return isFinish;
     }
 
     public Player getWinner() {
         return winner;
+    }
+
+    public boolean isPawnTransformation() {
+        return isPawnTransformation;
     }
 
     public DataPackageToClient getDataPackageToClient() {
@@ -121,6 +131,9 @@ public class GameChess {
     }
 
     public ArrayList<Cell> getAvailableTurnCells(int x, int y, String nickname) {
+        if (isPawnTransformation) {
+            return null;
+        }
         if (!currentPlayerStroke.getNickName().equals(nickname)) {
             return null;
         }
@@ -131,6 +144,9 @@ public class GameChess {
     }
 
     public ArrayList<Stroke> chessmanMoveTo(int x, int y) {
+        if (isPawnTransformation) {
+            return lastStrokes;
+        }
         int selectedChessmanX = selectedChessman.getX();
         int selectedChessmanY = selectedChessman.getY();
         boolean isMoved = selectedChessman.move(x, y, field, players, currentPlayerStroke, false);
@@ -138,13 +154,17 @@ public class GameChess {
             stroke.setMoved(false);
         }
         if (isMoved) {
-            nextPlayerStroke();
-            checkupKingUnderCheck();
-
-
             Stroke stroke = new Stroke(new Cell(selectedChessmanX, selectedChessmanY), new Cell(x, y));
             lastStrokes.clear();
             lastStrokes.add(stroke);
+            if (checkForNeedingThePawnTransformation()) {
+                stroke.setPawnTransformation(true);
+                isPawnTransformation = true;
+                return lastStrokes;
+            }
+
+            nextPlayerStroke();
+            checkupKingUnderCheck();
         }
         if (selectedChessman instanceof King) {
             King king = (King) selectedChessman;
@@ -154,6 +174,41 @@ public class GameChess {
         }
         //printFieldInConsole("move");
         return lastStrokes;
+    }
+
+    public DataAboutPawnTransformation getDataAboutPawnTransformation() {
+        DataAboutPawnTransformation dataAboutPawnTransformation = new DataAboutPawnTransformation(
+                selectedChessman.getX(),
+                selectedChessman.getY(),
+                selectedChessman.getPlayerId());
+        return dataAboutPawnTransformation;
+    }
+
+    public void transformationPawnTo(String toType) {
+        ChessMan transformationToChessMan = null;
+        int x = selectedChessman.getX();
+        int y = selectedChessman.getY();
+        int playerId = currentPlayerStroke.getId();
+        switch (toType) {
+            case "queen":
+                transformationToChessMan = new Queen(x, y, playerId);
+                break;
+            case "rook":
+                transformationToChessMan = new Rook(x, y, playerId);
+                break;
+            case "horse":
+                transformationToChessMan = new Horse(x, y, playerId);
+                break;
+            case "elephant":
+                transformationToChessMan = new Elephant(x, y, playerId);
+                break;
+        }
+        selectedChessman.knockedDown();
+        field[x][y] = transformationToChessMan;
+        currentPlayerStroke.addChessman(transformationToChessMan);
+        isPawnTransformation = false;
+        lastStrokes.get(0).setPawnTransformationToType(toType);
+        lastStrokes.get(0).setPlayerIdForPawnTransformation(currentPlayerStroke.getId());
     }
 
     private void checkupKingUnderCheck() {
@@ -200,6 +255,18 @@ public class GameChess {
             }
         }
         return null;
+    }
+
+    private boolean checkForNeedingThePawnTransformation() {
+        boolean isPawnTransformation = false;
+        for (ChessMan chessMan : currentPlayerStroke.getChessmans()) {
+            if (chessMan.getType().equals("pawn") && chessMan.isAlive()) {
+                if (chessMan.getX() == 0 || chessMan.getX() == field.length - 1) {
+                    isPawnTransformation = true;
+                }
+            }
+        }
+        return isPawnTransformation;
     }
 
     public void finishByPlayerSurrender(String nickname) {

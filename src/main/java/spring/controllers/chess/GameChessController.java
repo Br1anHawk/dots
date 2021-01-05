@@ -7,6 +7,7 @@ import spring.controllers.mappingNames.MappingURLs;
 import spring.domain.Account;
 import spring.gameChessLogic.GameChess;
 import spring.gameChessLogic.jsonResponses.Cell;
+import spring.gameChessLogic.jsonResponses.DataAboutPawnTransformation;
 import spring.gameChessLogic.jsonResponses.DataPackageToClient;
 import spring.gameChessLogic.jsonResponses.Lobby;
 
@@ -52,12 +53,13 @@ public class GameChessController {
         }
         model.put("logout", MappingURLs.LOGOUT);
         model.put("nickname", account.getNickname());
-        model.put("lobbyId", chessGamesMap.get(account.getNickname()).getLobbyId());
+        model.put("lobbyId", gameChess.getLobbyId());
         model.put("n", gameChess.getHeight());
         model.put("m", gameChess.getWidth());
         model.put("alphabet", getAlphabet());
         int rotationAngle = 0;
         int playerId = gameChess.findPlayerByNickname(account.getNickname()).getId();
+        model.put("playerId", playerId);
         if (playerId == 1) {
             rotationAngle = 180;
         }
@@ -111,6 +113,19 @@ public class GameChessController {
                         Integer.parseInt(request.get("y").toString())
                 );
         return chessGamesMap.get(account.getNickname()).getDataPackageToClient();
+    }
+
+    @RequestMapping(
+            path = "/" + MappingURLs.TRANSFORMATION_PAWN_TO,
+            produces = "application/json; charset=UTF-8",
+            method = RequestMethod.POST)
+    @ResponseBody
+    public DataAboutPawnTransformation transformationPawnTo(
+            @AuthenticationPrincipal Account account,
+            @RequestParam String toType
+    ) {
+        chessGamesMap.get(account.getNickname()).transformationPawnTo(toType);
+        return chessGamesMap.get(account.getNickname()).getDataAboutPawnTransformation();
     }
 
     @RequestMapping(

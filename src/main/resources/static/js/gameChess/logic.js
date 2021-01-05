@@ -34,18 +34,18 @@ let opacityBackgroundCellForLastStroke = '0.5';
 let colorBackgroundCellForCheckKing = '#900';
 let opacityBackgroundCellForCheckKing = '0.7';
 
-function drawChessmans() {
-	let imageSourcePrefix = "../img/chessmen/board/";
-	let imageSourceFileName = {
-		pawn : "pawn",
-		rook : "rook",
-		horse : "horse",
-		elephant : "elephant",
-		queen : "queen",
-		king : "king",
-	};
-	let imageSourceSuffix = ".png";
+let imageSourcePrefix = "../img/chessmen/board/";
+let imageSourceFileName = {
+	pawn : "pawn",
+	rook : "rook",
+	horse : "horse",
+	elephant : "elephant",
+	queen : "queen",
+	king : "king",
+};
+let imageSourceSuffix = ".png";
 
+function drawChessmans() {
 	let token = $("meta[name='_csrf']").attr("content");
 	let header = $("meta[name='_csrf_header']").attr("content");
 	$.ajaxSetup({
@@ -143,7 +143,13 @@ function clickedOnCell(x, y) {
 							break;
 						}*/
 					}
-				}	
+				}
+				if (data.lastStrokes[0].pawnTransformation)	{
+					let leftMargin = $('.containerMenuOfPawnTransformation').css('left');
+					leftMargin += y * $('#rect' + x + y).attr('width');
+					$('.containerMenuOfPawnTransformation').css('left', leftMargin);
+					$('.containerMenuOfPawnTransformation').css('display', 'block');
+				}
 			},
 			error: function(errMsg) {
 
@@ -188,6 +194,30 @@ function clickedOnCell(x, y) {
 			}
 		});
 	}
+}
+
+function transformatePawnTo(toType) {
+	let token = $("meta[name='_csrf']").attr("content");
+	let header = $("meta[name='_csrf_header']").attr("content");
+	$.ajaxSetup({
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        }
+    });	
+	$.ajax({
+	    type: "POST",
+	    url: "../chess/transformationPawnTo",	    
+	    data: toType,
+	    dataType: "json",	
+		success: function(data) {
+			let imageSource = imageSourcePrefix + imageSourceFileName[type] + data.playerId + imageSourceSuffix;						
+			$("#image" + data.x + data.y).attr('xlink:href', imageSource);
+			$('.containerMenuOfPawnTransformation').css('display', 'none');
+		},
+		error: function(errMsg) {
+
+		}						
+	});
 }
 
 function clearCirclesAndRectAvailableTurnMarker(n, m) {
@@ -266,6 +296,12 @@ let st = setInterval(function run() {
 					$("#rectMarker" + fromCell.x + fromCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
 					$("#rectMarker" + toCell.x + toCell.y).attr('fill', colorBackgroundCellForLastStroke);
 					$("#rectMarker" + toCell.x + toCell.y).attr('opacity', opacityBackgroundCellForLastStroke);
+					
+					if (data.lastStrokes[0].pawnTransformation && data.lastStrokes[0].pawnTransformationToType != "") {
+						let imageSource = imageSourcePrefix + imageSourceFileName[data.lastStrokes[0].pawnTransformationToType] + data.lastStrokes[0].playerIdForPawnTransformation + imageSourceSuffix;						
+						$("#image" + toCell.x + toCell.y).attr('xlink:href', imageSource);
+					}
+
 					for (let playerNumber = 0; playerNumber < data.players.length; playerNumber++) {
 						let king = data.players[playerNumber].king;
 						if (king.check) {

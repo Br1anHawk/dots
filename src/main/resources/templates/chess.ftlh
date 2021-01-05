@@ -90,12 +90,12 @@
 					</#list>
 				</g>
 			</svg>	
-			<div class="containerMenuOfPawnTransformation">
+			<div class="containerMenuOfPawnTransformation" style="left: ${borderForTextStroke}; top: ${borderForTextStroke}">
 				<div class="menuOfPawnTransformation">
-					<img class="" src="../img/chessmen/menuPawnTransformation/queen0.png" style="width: ${cellSideWidth}px; border: 0px">
-					<img class="" src="../img/chessmen/menuPawnTransformation/rook0.png" style="width: ${cellSideWidth}px">
-					<img class="" src="../img/chessmen/menuPawnTransformation/horse0.png" style="width: ${cellSideWidth}px">
-					<img class="" src="../img/chessmen/menuPawnTransformation/elephant0.png" style="width: ${cellSideWidth}px">
+					<img class="" src="../img/chessmen/menuPawnTransformation/queen${playerId}.png" style="width: ${cellSideWidth}px; border: 0px" onclick="transformatePawnTo('queen')" />
+					<img class="" src="../img/chessmen/menuPawnTransformation/rook${playerId}.png" style="width: ${cellSideWidth}px" onclick="transformatePawnTo('rook')" />
+					<img class="" src="../img/chessmen/menuPawnTransformation/horse${playerId}.png" style="width: ${cellSideWidth}px" onclick="transformatePawnTo('horse')" />
+					<img class="" src="../img/chessmen/menuPawnTransformation/elephant${playerId}.png" style="width: ${cellSideWidth}px" onclick="transformatePawnTo('elephant')" />
 				</div>
 			</div>	
 		</div>

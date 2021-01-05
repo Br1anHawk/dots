@@ -18,6 +18,7 @@ public class MappingURLs {
     public static final String GET_DATA_PACKAGE_TO_CLIENT_FROM_GAME_CHESS = GAME_CHESS + "/getDataPackageToClient";
     public static final String GET_AVAILABLE_TURN_CELLS_FOR_PLAYER_FROM_GAME_CHESS = GAME_CHESS + "/getAvailableTurnCellsFor";
     public static final String CHESSMAN_MOVE_TO = GAME_CHESS + "/chessmanMoveTo";
+    public static final String TRANSFORMATION_PAWN_TO = GAME_CHESS + "/transformationPawnTo";
     public static final String PLAYER_SURRENDER_IN_GAME_CHESS = GAME_CHESS + "/surrender";
     public static final String UPDATE_DATA_FOR_GAME_CHESS = GAME_CHESS + "/update";
 
